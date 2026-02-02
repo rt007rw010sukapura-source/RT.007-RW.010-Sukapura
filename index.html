@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RT.007/RW.010 Sukapura - Membangun Generasi Berprestasi</title>
+    <style>
+        /* ===== RESET & VARIABLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --dark: #1E0000;         /* Deep Dark from palette */
+            --wine: #500805;         /* Wine Red */
+            --clay: #9D331F;         /* Clay/Terracotta */
+            --rose: #BC6D4F;         /* Dusty Rose */
+            --cream: #F5E6D3;        /* Warm Cream */
+            --white: #FFFFFF;
+            --text: #1E0000;
+            --text-light: #500805;
+            --accent: #9D331F;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            color: var(--text);
+            background: var(--cream);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* ===== ANIMATED BACKGROUND PATTERNS ===== */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(188, 109, 79, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(157, 51, 31, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(80, 8, 5, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+            animation: backgroundShift 20s ease-in-out infinite;
+        }
+
+        @keyframes backgroundShift {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, -30px); }
+        }
+
+        /* ===== NAVIGATION ===== */
+        nav {
+            background: linear-gradient(135deg, var(--dark) 0%, var(--wine) 100%);
+            padding: 1.2rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 30px rgba(30, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--cream);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            transition: transform 0.3s;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .logo::before {
+            content: '🏘️';
+            font-size: 1.8rem;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 0.5rem;
+        }
+
+        .nav-menu a {
+            color: var(--cream);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.7rem 1.3rem;
+            border-radius: 12px;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+            position: relative;
+        }
+
+        .nav-menu a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 3px;
+            background: var(--rose);
+            transform: translateX(-50%);
+            transition: width 0.3s;
+            border-radius: 3px;
+        }
+
+        .nav-menu a:hover::before,
+        .nav-menu a.active::before {
+            width: 70%;
+        }
+
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            background: rgba(188, 109, 79, 0.2);
+            color: var(--cream);
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--cream);
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            background: linear-gradient(135deg, var(--dark) 0%, var(--wine) 50%, var(--clay) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--cream);
+            padding: 150px 2rem 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(188, 109, 79, 0.2) 0%, transparent 25%),
+                radial-gradient(circle at 90% 80%, rgba(157, 51, 31, 0.2) 0%, transparent 25%),
+                radial-gradient(circle at 50% 50%, rgba(245, 230, 211, 0.1) 0%, transparent 30%);
+            animation: heroGlow 8s ease-in-out infinite;
+        }
+
+        @keyframes heroGlow {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.1); }
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="2" cy="2" r="1.5" fill="%23BC6D4F" opacity="0.3"/><circle cx="50" cy="50" r="2" fill="%23F5E6D3" opacity="0.2"/><circle cx="90" cy="10" r="1" fill="%239D331F" opacity="0.4"/></svg>');
+            animation: floatPattern 30s linear infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes floatPattern {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(-100px) rotate(360deg); }
+        }
+
+        .hero-content {
+            max-width: 900px;
+            animation: fadeInUp 1s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            text-shadow: 
+                3px 3px 12px rgba(0, 0, 0, 0.5),
+                0 0 40px rgba(188, 109, 79, 0.5),
+                0 0 80px rgba(188, 109, 79, 0.3);
+            background: linear-gradient(90deg, var(--cream), var(--rose), var(--cream));
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 3s linear infinite, titlePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            to { background-position: 200% center; }
+        }
+
+        @keyframes titlePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .hero-subtitle {
+            font-size: 1.4rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.95;
+            color: var(--cream);
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            animation: floatText 3s ease-in-out infinite;
+        }
+
+        @keyframes floatText {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .hero-btn {
+            display: inline-block;
+            padding: 1.2rem 3rem;
+            background: linear-gradient(135deg, var(--clay), var(--rose));
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: 0 8px 25px rgba(157, 51, 31, 0.4);
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .hero-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .hero-btn:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(157, 51, 31, 0.6);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== WAVE DIVIDER ===== */
+        .wave-divider {
+            display: block;
+            width: 100%;
+            height: 80px;
+            margin-bottom: -1px;
+        }
+
+        /* ===== SECTIONS ===== */
+        section {
+            padding: 100px 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .section-title {
+            font-size: 3.2rem;
+            color: var(--dark);
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            position: relative;
+            display: inline-block;
+            animation: titleBounce 2s ease-in-out infinite;
+        }
+
+        @keyframes titleBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--clay), var(--rose));
+            border-radius: 3px;
+            animation: lineExpand 2s ease-in-out infinite;
+        }
+
+        @keyframes lineExpand {
+            0%, 100% { width: 80px; }
+            50% { width: 120px; }
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--wine);
+            max-width: 700px;
+            margin: 2rem auto 0;
+            font-weight: 400;
+        }
+
+        /* ===== GLASS CARD ===== */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 28px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+            border: 3px solid rgba(188, 109, 79, 0.4);
+            backdrop-filter: blur(10px);
+            padding: 3rem 2.5rem;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s;
+            animation: cardFloat 6s ease-in-out infinite;
+        }
+
+        @keyframes cardFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(188, 109, 79, 0.1), transparent);
+            animation: rotate 20s linear infinite;
+        }
+
+        .glass-card::after {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            background: linear-gradient(45deg, var(--clay), var(--rose), var(--wine), var(--rose));
+            background-size: 300% 300%;
+            border-radius: 28px;
+            z-index: -1;
+            animation: gradientBorder 4s ease infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes gradientBorder {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes rotate {
+            to { transform: rotate(360deg); }
+        }
+
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.18);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .glass-card .svg-icon {
+            width: 56px;
+            height: 56px;
+            margin-bottom: 1.5rem;
+            display: block;
+            filter: drop-shadow(0 4px 8px rgba(157, 51, 31, 0.3));
+            animation: iconFloat 3s ease-in-out infinite;
+            transition: transform 0.3s;
+        }
+
+        .glass-card:hover .svg-icon {
+            transform: scale(1.1) rotate(5deg);
+            filter: drop-shadow(0 8px 16px rgba(157, 51, 31, 0.5));
+        }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(2deg); }
+        }
+
+        /* ===== ABOUT SECTION ===== */
+        .about {
+            background: linear-gradient(135deg, var(--wine) 0%, var(--clay) 100%);
+            color: var(--cream);
+        }
+
+        .about .section-title {
+            color: var(--cream);
+        }
+
+        .about .section-title::after {
+            background: var(--rose);
+        }
+
+        .about .section-subtitle {
+            color: rgba(245, 230, 211, 0.95);
+        }
+
+        .about-intro {
+            color: var(--cream);
+            font-size: 1.2rem;
+            text-align: center;
+            line-height: 2;
+            position: relative;
+            z-index: 1;
+        }
+
+        .vision-mission {
+            display: flex;
+            gap: 3rem;
+            margin-top: 3rem;
+            justify-content: center;
+            align-items: stretch;
+            flex-wrap: wrap;
+        }
+
+        .vm-card {
+            flex: 1 1 400px;
+            min-width: 350px;
+            max-width: 650px;
+        }
+
+        .vm-card h3 {
+            font-size: 2rem;
+            color: var(--rose);
+            margin-bottom: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .vm-card p,
+        .vm-card ol {
+            font-size: 1.05rem;
+            line-height: 2;
+            color: var(--cream);
+            position: relative;
+            z-index: 1;
+        }
+
+        .vm-card ol {
+            padding-left: 1.8rem;
+        }
+
+        .vm-card ol li {
+            margin-bottom: 1.2rem;
+        }
+
+        /* ===== STRUKTUR SECTION ===== */
+        .struktur {
+            background: linear-gradient(135deg, var(--wine) 0%, var(--clay) 100%);
+            color: var(--cream);
+        }
+
+        .struktur .section-title {
+            color: var(--cream);
+        }
+
+        .struktur .section-title::after {
+            background: var(--rose);
+        }
+
+        .struktur .section-subtitle {
+            color: rgba(245, 230, 211, 0.95);
+        }
+
+        .struktur-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 2.5rem;
+        }
+
+        .struktur-card {
+            background: rgba(255, 255, 255, 0.12);
+            border: 3px solid rgba(188, 109, 79, 0.4);
+            border-radius: 28px;
+            padding: 3rem 2.5rem;
+            text-align: center;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            animation: cardPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes cardPulse {
+            0%, 100% { transform: translateY(0); box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2); }
+            50% { transform: translateY(-5px); box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3); }
+        }
+
+        .struktur-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s;
+        }
+
+        .struktur-card::after {
+            content: '✨';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            opacity: 0;
+            animation: sparkle 3s ease-in-out infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0.5) rotate(0deg); }
+            50% { opacity: 1; transform: scale(1.2) rotate(180deg); }
+        }
+
+        .struktur-card:hover::before {
+            left: 100%;
+        }
+
+        .struktur-card:hover {
+            background: rgba(255, 255, 255, 0.18);
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .struktur-card .position {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--rose);
+            margin-bottom: 1.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .struktur-card .name {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--cream);
+            text-shadow: 
+                2px 2px 8px rgba(0, 0, 0, 0.3),
+                0 0 20px rgba(245, 230, 211, 0.5);
+            animation: nameGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes nameGlow {
+            0%, 100% { text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3), 0 0 20px rgba(245, 230, 211, 0.5); }
+            50% { text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3), 0 0 40px rgba(245, 230, 211, 0.8); }
+        }
+
+        /* ===== KEGIATAN SECTION ===== */
+        .kegiatan {
+            background: linear-gradient(to bottom, #f9f1e8, var(--cream));
+        }
+
+        .kegiatan-zigzag {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .activity-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 28px;
+            border: 3px solid var(--rose);
+            box-shadow: 0 12px 40px rgba(30, 0, 0, 0.12);
+            overflow: hidden;
+            position: relative;
+            transition: all 0.4s;
+        }
+
+        .activity-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(188, 109, 79, 0.1), 
+                transparent);
+            transition: left 0.8s;
+        }
+
+        .activity-card:hover::before {
+            left: 100%;
+        }
+
+        .activity-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 
+                0 20px 60px rgba(30, 0, 0, 0.2),
+                0 0 0 1px rgba(188, 109, 79, 0.3);
+        }
+
+        .activity-content {
+            padding: 2.5rem 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .activity-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--clay), var(--rose));
+            color: var(--white);
+            font-size: 0.9rem;
+            font-weight: 700;
+            border-radius: 12px;
+            padding: 0.4rem 1.2rem;
+            margin-bottom: 1rem;
+            letter-spacing: 0.5px;
+            align-self: flex-start;
+            box-shadow: 0 4px 12px rgba(157, 51, 31, 0.3);
+            animation: badgePulse 2s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .activity-badge::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            animation: badgeRipple 2s ease-out infinite;
+        }
+
+        @keyframes badgePulse {
+            0%, 100% { box-shadow: 0 4px 12px rgba(157, 51, 31, 0.3); }
+            50% { box-shadow: 0 6px 20px rgba(157, 51, 31, 0.5); }
+        }
+
+        @keyframes badgeRipple {
+            0% { width: 0; height: 0; opacity: 1; }
+            100% { width: 100px; height: 100px; opacity: 0; }
+        }
+
+        .activity-title {
+            font-size: 2.2rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+
+        .activity-description {
+            font-size: 1.1rem;
+            line-height: 1.9;
+            color: var(--wine);
+        }
+
+        /* ===== GALLERY SECTION ===== */
+        .gallery {
+            background: linear-gradient(135deg, var(--clay) 0%, var(--wine) 100%);
+            color: var(--cream);
+        }
+
+        .gallery .section-title {
+            color: var(--cream);
+        }
+
+        .gallery .section-subtitle {
+            color: rgba(245, 230, 211, 0.95);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s;
+            aspect-ratio: 4/3;
+            background: var(--dark);
+            animation: galleryFloat 4s ease-in-out infinite;
+        }
+
+        .gallery-item:nth-child(1) { animation-delay: 0s; }
+        .gallery-item:nth-child(2) { animation-delay: 0.5s; }
+        .gallery-item:nth-child(3) { animation-delay: 1s; }
+
+        @keyframes galleryFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-12px) scale(1.05);
+            box-shadow: 
+                0 25px 60px rgba(0, 0, 0, 0.4),
+                0 0 40px rgba(188, 109, 79, 0.4);
+            animation-play-state: paused;
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s;
+        }
+
+        .gallery-item:hover .gallery-image {
+            transform: scale(1.15);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(30, 0, 0, 0.95), transparent);
+            color: var(--cream);
+            padding: 2rem;
+            transform: translateY(100%);
+            transition: transform 0.4s;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+
+        .gallery-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            color: var(--rose);
+        }
+
+        /* ===== CONTACT SECTION ===== */
+        .contact {
+            background: linear-gradient(to bottom, var(--cream), #f9f1e8);
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .contact-box {
+            background: rgba(255, 255, 255, 0.9);
+            border: 3px solid var(--rose);
+            border-radius: 28px;
+            padding: 3rem;
+            box-shadow: 0 12px 40px rgba(30, 0, 0, 0.12);
+            transition: all 0.4s;
+        }
+
+        .contact-box:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(30, 0, 0, 0.2);
+        }
+
+        .contact-box .svg-icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-box h3 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--clay);
+            font-weight: 800;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.2rem;
+            margin-bottom: 1.8rem;
+            font-size: 1.1rem;
+        }
+
+        .contact-icon {
+            font-size: 1.8rem;
+            color: var(--clay);
+        }
+
+        .contact-item strong {
+            color: var(--dark);
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        .contact-item a {
+            color: var(--wine);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 600;
+        }
+
+        .contact-item a:hover {
+            color: var(--clay);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: linear-gradient(135deg, var(--dark) 0%, var(--wine) 100%);
+            color: var(--cream);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            color: var(--cream);
+            text-decoration: none;
+            font-size: 1.1rem;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            background: rgba(188, 109, 79, 0.2);
+            transition: all 0.4s;
+            border: 2px solid rgba(188, 109, 79, 0.3);
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-link::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .social-link:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .social-link:hover {
+            background: var(--clay);
+            transform: translateY(-6px) scale(1.08) rotate(-2deg);
+            box-shadow: 
+                0 10px 30px rgba(157, 51, 31, 0.4),
+                0 0 20px rgba(188, 109, 79, 0.3);
+            border-color: var(--rose);
+        }
+
+        .social-link span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-text {
+            margin: 1rem 0;
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .footer-highlight {
+            color: var(--rose);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        /* ===== SCROLL TO TOP BUTTON ===== */
+        #scrollTopBtn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, var(--clay), var(--rose));
+            color: var(--white);
+            border: none;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            font-size: 1.8rem;
+            cursor: pointer;
+            display: none;
+            box-shadow: 0 6px 20px rgba(157, 51, 31, 0.4);
+            transition: all 0.3s;
+            z-index: 999;
+            animation: buttonPulse 2s ease-in-out infinite;
+            position: relative;
+        }
+
+        #scrollTopBtn::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--clay), var(--rose), var(--wine));
+            background-size: 200% 200%;
+            z-index: -1;
+            opacity: 0.5;
+            animation: rotateGlow 3s linear infinite;
+        }
+
+        @keyframes buttonPulse {
+            0%, 100% { box-shadow: 0 6px 20px rgba(157, 51, 31, 0.4); }
+            50% { box-shadow: 0 10px 40px rgba(157, 51, 31, 0.7); }
+        }
+
+        @keyframes rotateGlow {
+            0% { transform: rotate(0deg); background-position: 0% 50%; }
+            100% { transform: rotate(360deg); background-position: 100% 50%; }
+        }
+
+        #scrollTopBtn:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 10px 30px rgba(157, 51, 31, 0.6);
+            animation-play-state: paused;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s, transform 0.8s;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-animate {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s, transform 0.6s;
+        }
+
+        .section-animate.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 968px) {
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 85px;
+                flex-direction: column;
+                background: linear-gradient(135deg, var(--dark), var(--wine));
+                width: 100%;
+                text-align: center;
+                transition: 0.4s;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+                padding: 1.5rem 0;
+            }
+            .nav-menu.active { left: 0; }
+            .menu-toggle { display: block; }
+            .hero h1 { font-size: 2.5rem; }
+            .section-title { font-size: 2.3rem; }
+            .vision-mission { flex-direction: column; gap: 2rem; }
+            .vm-card { max-width: 100%; }
+            
+            .activity-content {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            section { padding: 60px 1rem; }
+            .hero { padding: 120px 1rem 60px; }
+            .hero h1 { font-size: 1.8rem; }
+            .hero-subtitle { font-size: 1.1rem; }
+            .section-title { font-size: 2rem; }
+            .glass-card { padding: 2rem 1.5rem; }
+            .vm-card { min-width: 100%; padding: 2rem 1.5rem; }
+            .contact-box { padding: 2rem 1.5rem; }
+            .gallery-grid { gap: 1.5rem; grid-template-columns: 1fr; }
+            .struktur-grid { gap: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="#home" class="logo">
+                <span>RT.007/RW.010 Sukapura</span>
+            </a>
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home" onclick="closeMenu()">Beranda</a></li>
+                <li><a href="#about" onclick="closeMenu()">Tentang</a></li>
+                <li><a href="#struktur" onclick="closeMenu()">Struktur</a></li>
+                <li><a href="#kegiatan" onclick="closeMenu()">Kegiatan</a></li>
+                <li><a href="#gallery" onclick="closeMenu()">Galeri</a></li>
+                <li><a href="#contact" onclick="closeMenu()">Kontak</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>RT.007/RW.010 Sukapura</h1>
+            <p class="hero-subtitle">Warga Rukun, Lingkungan Maju - Membangun Generasi Berprestasi</p>
+            <a href="#about" class="hero-btn">Kenali Kami</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about section-animate">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Tentang Kami</h2>
+                <p class="section-subtitle">Mengenal lebih dekat RT.007/RW.010 Sukapura, Jakarta Utara</p>
+            </div>
+            <div class="glass-card" style="text-align:center;">
+                <span class="svg-icon"> 
+                    <svg width="56" height="56" fill="none" viewBox="0 0 56 56">
+                        <circle cx="28" cy="28" r="26" fill="#9D331F" opacity="0.2"/>
+                        <path d="M28 14c-7.732 0-14 4.701-14 10.5v7c0 5.799 6.268 10.5 14 10.5s14-4.701 14-10.5v-7c0-5.799-6.268-10.5-14-10.5Zm0 2.333c6.443 0 11.667 3.656 11.667 8.167v7c0 4.511-5.224 8.167-11.667 8.167S16.333 36.011 16.333 31.5v-7c0-4.511 5.224-8.167 11.667-8.167Zm0 4.667a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z" fill="#500805"/>
+                    </svg>
+                </span>
+                <div class="about-intro">
+                    RT.007/RW.010 Sukapura merupakan wilayah komunitas strategis di Kelurahan Sukapura, Jakarta Utara, yang terbentuk sejak era 1970-an sebagai bagian dari pengembangan permukiman rakyat. Melalui musyawarah berkala, RT ini terus berkembang menjadi lingkungan harmonis dengan sekitar 30-50 KK aktif.<br><br>
+                    Berlokasi di kawasan urban Sukapura, RT ini mencakup area seluas sekitar 2 hektar dengan akses mudah ke fasilitas umum seperti pasar, masjid, dan posyandu. Penduduk mayoritas pekerja kelas menengah, dengan komposisi usia muda hingga lansia yang seimbang, mencerminkan keberagaman budaya Jakarta.
+                </div>
+            </div>
+            <div class="vision-mission">
+                <div class="glass-card vm-card">
+                    <span class="svg-icon">
+                        <svg width="56" height="56" fill="none" viewBox="0 0 56 56">
+                            <circle cx="28" cy="28" r="26" fill="#9D331F" opacity="0.2"/>
+                            <path d="M28 14l9.333 16.333H18.667L28 14Zm0 5.388l-5.555 9.945h11.11L28 19.388ZM28 39.667a2.333 2.333 0 1 1 0-4.667 2.333 2.333 0 0 1 0 4.667Z" fill="#500805"/>
+                        </svg>
+                    </span>
+                    <h3>Visi</h3>
+                    <p>Mewujudkan RT.007/RW.010 Sukapura sebagai lingkungan idaman yang aman, nyaman, tentram, bersih, sehat, religius, dan berkelanjutan di tengah dinamika perkotaan Jakarta Utara. Dengan semangat gotong royong yang kokoh berlandaskan Pancasila, kami membangun komunitas warga yang mandiri, produktif, berdaya saing, serta harmonis dalam keberagaman budaya dan sosial. Melalui partisipasi aktif semua lapisan masyarakat, RT ini akan menjadi teladan dalam pemberdayaan sumber daya manusia, pengelolaan lingkungan hijau, peningkatan kesejahteraan ekonomi keluarga, serta sinergi kuat dengan pemerintah kelurahan dan stakeholder terkait untuk mencapai kemajuan bersama yang inklusif dan lestari hingga generasi mendatang.</p>
+                </div>
+                <div class="glass-card vm-card">
+                    <span class="svg-icon">
+                        <svg width="56" height="56" fill="none" viewBox="0 0 56 56">
+                            <circle cx="28" cy="28" r="26" fill="#BC6D4F" opacity="0.2"/>
+                            <path d="M28 14a2.333 2.333 0 0 1 2.333 2.333v9.334h9.334a2.333 2.333 0 1 1 0 4.666h-9.334v9.334a2.333 2.333 0 1 1-4.666 0v-9.334h-9.334a2.333 2.333 0 1 1 0-4.666h9.334v-9.334A2.333 2.333 0 0 1 28 14Z" fill="#500805"/>
+                        </svg>
+                    </span>
+                    <h3>Misi</h3>
+                    <ol>
+                        <li>Meningkatkan kerukunan dan partisipasi warga melalui kegiatan sosial, keagamaan, dan gotong royong yang positif, sambil memelihara nilai Pancasila dan kerjasama dengan pemerintah setempat.</li>
+                        <li>Menyediakan pelayanan publik yang transparan, profesional, dan akuntabel, termasuk administrasi kependudukan, pengelolaan keuangan RT/RW, serta informasi real-time via website.</li>
+                        <li>Mendorong peningkatan sumber daya manusia melalui program pendidikan, kesehatan, pemberdayaan ekonomi kreatif, dan pola hidup sehat untuk mencapai kemandirian dan kesejahteraan.</li>
+                        <li>Memelihara kebersihan, keamanan, dan ketertiban lingkungan dengan zero waste, infrastruktur ramah keluarga, serta pengelolaan sumber daya alam yang lestari dan berwawasan lingkungan.</li>
+                        <li>Menjalin kemitraan dengan BPD, kelurahan, dan masyarakat luas untuk pembangunan partisipatif, inovatif, serta penanganan masalah sosial secara bertanggung jawab.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <svg class="wave-divider" viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 0h1440v40c-140 23-420 46-840 35S140 46 0 40V0z" fill="#500805" fill-opacity="0.15"/>
+        </svg>
+    </section>
+
+    <!-- Struktur Section -->
+    <section id="struktur" class="struktur section-animate">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Struktur Kepengurusan</h2>
+                <p class="section-subtitle">Pengurus RT.007/RW.010 Sukapura yang melayani dengan dedikasi</p>
+            </div>
+            <div class="struktur-grid">
+                <div class="struktur-card fade-in">
+                    <div class="position">Ketua RT</div>
+                    <div class="name">Bapak Endang Herianto</div>
+                </div>
+                <div class="struktur-card fade-in">
+                    <div class="position">Sekretaris RT</div>
+                    <div class="name">Bapak Wisnu Rismantoro</div>
+                </div>
+                <div class="struktur-card fade-in">
+                    <div class="position">Bendahara RT</div>
+                    <div class="name">Bapak Suhardi</div>
+                </div>
+            </div>
+        </div>
+        <svg class="wave-divider" viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 0h1440v40c-140 23-420 46-840 35S140 46 0 40V0z" fill="#F5E6D3" fill-opacity="0.2"/>
+        </svg>
+    </section>
+
+    <!-- Kegiatan Section -->
+    <section id="kegiatan" class="kegiatan section-animate">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Kegiatan Kami</h2>
+                <p class="section-subtitle">Program dan aktivitas yang kami laksanakan untuk kemajuan bersama</p>
+            </div>
+            <div class="kegiatan-zigzag">
+                <!-- Rumah Belajar -->
+                <div class="activity-card fade-in">
+                    <div class="activity-content">
+                        <span class="activity-badge">Pendidikan</span>
+                        <h3 class="activity-title">Rumah Belajar</h3>
+                        <p class="activity-description">Rumah Belajar adalah pusat pendidikan nonformal gratis khusus anak usia dini (PAUD). Kegiatan mencakup bermain edukatif, literasi awal, motorik halus, serta pengenalan nilai sosial melalui cerita dan lagu. Kolaborasi warga dan kelurahan membangun fondasi belajar sejak dini untuk tumbuh kembang optimal anak RT.</p>
+                    </div>
+                </div>
+                <!-- Majelis Taklim -->
+                <div class="activity-card fade-in">
+                    <div class="activity-content">
+                        <span class="activity-badge">Keagamaan</span>
+                        <h3 class="activity-title">Majelis Taklim</h3>
+                        <p class="activity-description">Majelis Taklim Ibu-Ibu dari Masjid Al Barokah adalah kajian rutin ibu-ibu RT setiap malam Jumat di Masjid Al-Barokah. Kegiatan mencakup pengajian, ceramah keagamaan, tahlilan, doa bersama, serta tausiah tentang akhlak keluarga. Mempererat ukhuwah islamiyah sambil menguatkan nilai religius di lingkungan RT.007/RW.010, Kelurahan Sukapura.</p>
+                    </div>
+                </div>
+                <!-- Aksi Bersih -->
+                <div class="activity-card fade-in">
+                    <div class="activity-content">
+                        <span class="activity-badge">Lingkungan</span>
+                        <h3 class="activity-title">Aksi Bersih</h3>
+                        <p class="activity-description">Aksi Bersih adalah gerakan rutin bulanan gotong royong warga RT untuk menjaga kebersihan dan keindahan kawasan. Kegiatan mencakup pembersihan got, jalan, dan drainase, daur ulang sampah, serta edukasi zero waste. Kolaborasi warga, pemuda, dan kelurahan menciptakan lingkungan sehat, rapi, serta nyaman bagi semua penghuni.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="gallery section-animate">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Galeri Kegiatan</h2>
+                <p class="section-subtitle">Dokumentasi aktivitas dan kebersamaan warga RT.007/RW.010 Sukapura</p>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item fade-in">
+                    <img src="rumahbelajar.jpeg" alt="Rumah Belajar" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h4 class="gallery-title">Rumah Belajar</h4>
+                        <p>Kegiatan pembelajaran anak usia dini</p>
+                    </div>
+                </div>
+                <div class="gallery-item fade-in">
+                    <img src="majelistaklim.jpeg" alt="Majelis Taklim" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h4 class="gallery-title">Majelis Taklim</h4>
+                        <p>Kajian rutin di Masjid Al-Barokah</p>
+                    </div>
+                </div>
+                <div class="gallery-item fade-in">
+                    <img src="aksibersih.jpeg" alt="Aksi Bersih" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h4 class="gallery-title">Aksi Bersih</h4>
+                        <p>Gotong royong menjaga kebersihan</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact section-animate">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Hubungi Kami</h2>
+                <p class="section-subtitle">Jangan ragu untuk menghubungi kami untuk informasi lebih lanjut</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-box fade-in">
+                    <span class="svg-icon">
+                        <svg width="48" height="48" fill="none" viewBox="0 0 48 48">
+                            <circle cx="24" cy="24" r="21" fill="#9D331F" opacity="0.2"/>
+                            <path d="M24 14a9.333 9.333 0 0 1 9.333 9.333c0 5.155-4.178 9.334-9.333 9.334s-9.333-4.179-9.333-9.334A9.333 9.333 0 0 1 24 14Zm0 2.333a7 7 0 0 0-7 7c0 3.867 3.133 7 7 7s7-3.133 7-7a7 7 0 0 0-7-7Z" fill="#500805"/>
+                        </svg>
+                    </span>
+                    <h3>Informasi Kontak</h3>
+                    <div class="contact-item">
+                        <span class="contact-icon">📞</span>
+                        <div>
+                            <strong>Telepon</strong><br>
+                            <a href="tel:082299161353">0822-9916-1353</a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-icon">✉️</span>
+                        <div>
+                            <strong>Email</strong><br>
+                            <a href="mailto:katar.sukapura0710@gmail.com">katar.sukapura0710@gmail.com</a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-icon">📷</span>
+                        <div>
+                            <strong>Instagram</strong><br>
+                            <a href="https://instagram.com/katar.sukapura0710" target="_blank">@katar.sukapura0710</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-box fade-in">
+                    <span class="svg-icon">
+                        <svg width="48" height="48" fill="none" viewBox="0 0 48 48">
+                            <circle cx="24" cy="24" r="21" fill="#BC6D4F" opacity="0.2"/>
+                            <path d="M24 12a11.667 11.667 0 1 1 0 23.333A11.667 11.667 0 0 1 24 12Zm0 2.333a9.333 9.333 0 1 0 0 18.667 9.333 9.333 0 0 0 0-18.667Z" fill="#500805"/>
+                        </svg>
+                    </span>
+                    <h3>Lokasi Kami</h3>
+                    <p style="line-height: 2;">
+                        <strong>RT.007/RW.010</strong><br>
+                        Kelurahan Sukapura<br>
+                        Kecamatan Cilincing<br>
+                        Jakarta Utara<br><br>
+                        Kami melayani dengan sepenuh hati untuk kemajuan dan kesejahteraan warga.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="section-animate">
+        <div class="social-links">
+            <a href="#" class="social-link">
+                <span>📘</span>
+                <span>Facebook</span>
+            </a>
+            <a href="https://instagram.com/katar.sukapura0710" target="_blank" class="social-link">
+                <span>📷</span>
+                <span>Instagram</span>
+            </a>
+            <a href="#" class="social-link">
+                <span>🐦</span>
+                <span>Twitter</span>
+            </a>
+            <a href="#" class="social-link">
+                <span>📹</span>
+                <span>YouTube</span>
+            </a>
+        </div>
+        <p class="footer-text">&copy; 2026 RT.007/RW.010 Sukapura. Semua Hak Dilindungi.</p>
+        <p class="footer-highlight">Membangun Generasi Emas Indonesia 🇮🇩</p>
+    </footer>
+
+    <script>
+        // Toggle Mobile Menu
+        function toggleMenu() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('active');
+        }
+
+        function closeMenu() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.remove('active');
+        }
+
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Intersection Observer for Animations
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -80px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in, .section-animate').forEach(el => observer.observe(el));
+
+        // Active Navigation
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-menu a');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Scroll To Top Button
+        const scrollBtn = document.createElement('button');
+        scrollBtn.id = 'scrollTopBtn';
+        scrollBtn.title = 'Kembali ke atas';
+        scrollBtn.innerHTML = '↑';
+        document.body.appendChild(scrollBtn);
+        scrollBtn.onclick = () => window.scrollTo({top: 0, behavior: 'smooth'});
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) scrollBtn.style.display = 'block';
+            else scrollBtn.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
